@@ -25,13 +25,13 @@ namespace FCG.API.Controllers
             return Success(games, "Lista de jogos retornada com sucesso.");
         }
 
-        //[HttpGet("{id:int}")]
-        //public async Task<IActionResult> GetGame(int id)
-        //{
-        //   var game = await _gameService.GetGameByIdAsync(id);
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetGame(int id)
+        {
+            var game = await _gameService.GetGameByIdAsync(id);
 
-        //   return Success(game, "Jogo encontrado.");
-        //}
+            return Success(game, "Jogo encontrado.");
+        }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
