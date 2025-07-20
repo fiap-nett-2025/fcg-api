@@ -1,7 +1,7 @@
 name: Deploy to Azure Container Apps
 
 env:
-  AZURE_CONTAINER_REGISTRY: 'fcgapi'
+  AZURE_CONTAINER_REGISTRY: 'fcgapioficial'
   CONTAINER_APP_NAME: 'fcgapi' 
   RESOURCE_GROUP: 'fcg'
   DOTNET_VERSION: '8'   
