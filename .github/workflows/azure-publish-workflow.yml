@@ -67,4 +67,3 @@ jobs:
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           environmentVariables: |
             ASPNETCORE_ENVIRONMENT=Development
-            ConnectionStrings__DefaultConnection=${{ secrets.AZURE_SQL_CONNECTION_STRING }}
