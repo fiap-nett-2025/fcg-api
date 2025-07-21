@@ -32,7 +32,9 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release --no-restore
-  build-and-test:
+  test:
+    needs: build
+    if: success()
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +43,27 @@ jobs:
 
       - name: Run Infra Tests
         run: dotnet test ./FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal
-  build-and-deploy:
+  approval:
+    name: Approval
+    runs-on: ubuntu-latest
+    needs: test
+    if: success()
+    
+    permissions:
+      issues: write
+
+    steps:
+      - name: Await Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: time
+          minimum-approvals: 1
+          issue-title: "Manual Approval Required"
+          issue-body: "Please approve or deny the deployment."
+  deploy:
+    needs: approval
+    if: success()
     runs-on: ubuntu-latest
 
     steps:
