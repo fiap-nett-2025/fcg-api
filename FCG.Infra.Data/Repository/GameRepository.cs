@@ -3,6 +3,7 @@ using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FCG.Infra.Data.Repository;
 
@@ -18,9 +19,13 @@ public class GameRepository(FCGDbContext context) : IGameRepository
 
     public async Task DeleteAsync(int id)
     {
-        var game = await GetByIdAsync(id);
-        _context.Games.Remove(game);
-        await _context.SaveChangesAsync();
+        var game = await GetBy(g => g.Id.Equals(id));
+        if (game != null)
+        {
+            _context.Games.Attach(game);
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
@@ -30,12 +35,12 @@ public class GameRepository(FCGDbContext context) : IGameRepository
             .ToListAsync();
     }
 
-    public async Task<Game?> GetByIdAsync(int id)
+    public async Task<Game?> GetBy(Expression<Func<Game, bool>> condition)
     {
-        return
-            await _context.Games.FirstOrDefaultAsync(u => u.Id == id);
+        return await _context.Games
+            .AsNoTracking()
+            .FirstOrDefaultAsync(condition);
     }
-
     public async Task UpdateAsync(Game game)
     {
         _context.Games.Update(game);

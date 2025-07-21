@@ -33,9 +33,8 @@ namespace FCG.Application.Services
         }
 
         public async Task<GameDTO> GetGameByIdAsync(int id)
-        {
-            var game = await _gameRepository.GetByIdAsync(id);
-
+        { 
+            var game = await _gameRepository.GetBy(game => game.Id.Equals(id));
             if (game == null)
                 throw new NotFoundException("Jogo não encontrado.");
 
@@ -51,6 +50,10 @@ namespace FCG.Application.Services
 
         public async Task<GameDTO> CreateGameAsync(CreateGameModel model)
         {
+            var existingGame = await _gameRepository.GetBy(g => g.Title.ToUpper() == model.Title.ToUpper());
+            if (existingGame is not null)
+                throw new BusinessErrorDetailsException($"Jogo com o título '{model.Title}' já existe.");
+
             var game = new Game
             (
                 model.Title,
@@ -73,7 +76,11 @@ namespace FCG.Application.Services
 
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
-            var game = await _gameRepository.GetByIdAsync(id);
+            var game = await _gameRepository.GetBy(g => g.Id.Equals(id));
+            var ExistingGame = await _gameRepository.GetBy(g => g.Title.ToUpper() == model.Title.ToUpper() && g.Id != id);
+
+            if (ExistingGame is not null)
+                throw new BusinessErrorDetailsException($"Jogo com o título '{model.Title}' já existe.");
 
             if (game == null)
                 throw new NotFoundException($"Jogo {id} não encontrado.");
@@ -101,7 +108,7 @@ namespace FCG.Application.Services
 
         public async Task DeleteGameAsync(int id)
         {
-            var game = await _gameRepository.GetByIdAsync(id);
+            var game = await _gameRepository.GetBy(g => g.Id.Equals(id));
 
             if (game == null)
                 throw new NotFoundException($"Jogo {id} não encontrado.");

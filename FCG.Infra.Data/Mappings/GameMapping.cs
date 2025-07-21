@@ -16,6 +16,9 @@ namespace FCG.Infra.Data.Mappings
             builder.Property(j => j.Id)
                    .ValueGeneratedOnAdd();
 
+            builder.HasIndex(j => j.Title)
+                    .IsUnique();
+
             builder.Property(j => j.Title)
                    .IsRequired()
                    .HasMaxLength(100);
