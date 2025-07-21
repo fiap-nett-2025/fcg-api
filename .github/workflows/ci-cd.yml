@@ -15,11 +15,38 @@ permissions:
   contents: read
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Dependency Restore
+        run: dotnet restore
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release --no-restore
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Domain Tests
+        run: dotnet test ./FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Run Infra Tests
+        run: dotnet test ./FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Download source
+        uses: actions/checkout@v4
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
