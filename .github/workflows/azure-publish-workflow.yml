@@ -1,14 +1,14 @@
 name: Deploy to Azure Container Apps
 
 env:
-  AZURE_CONTAINER_REGISTRY: 'fcgapioficial'
-  CONTAINER_APP_NAME: 'fcgapi' 
-  RESOURCE_GROUP: 'fcg'
-  DOTNET_VERSION: '8'   
+  AZURE_CONTAINER_REGISTRY: "fcgapioficial"
+  CONTAINER_APP_NAME: "fcgapi"
+  RESOURCE_GROUP: "fcg"
+  DOTNET_VERSION: "8"
 
 on:
   push:
-    branches: [ "main", "LucasCancio/ci-cd" ]
+    branches: ["main", "LucasCancio/ci-cd"]
   workflow_dispatch:
 
 permissions:
@@ -50,14 +50,14 @@ jobs:
       - name: Build and push container image to ACR
         uses: docker/build-push-action@v6
         with:
-           push: true
-           tags: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
-           file: FCG.API/Dockerfile
+          push: true
+          tags: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
+          file: FCG.API/Dockerfile
 
       - name: Azure Login
         uses: azure/login@v2
         with:
-           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v2
@@ -67,3 +67,4 @@ jobs:
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           environmentVariables: |
             ASPNETCORE_ENVIRONMENT=Development
+            "ConnectionStrings__DefaultConnection=${{ secrets.AZURE_SQL_CONNECTION_STRING }}"
