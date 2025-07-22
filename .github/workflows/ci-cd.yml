@@ -38,28 +38,13 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}
-  approval:
-    name: Approval
-    runs-on: ubuntu-latest
+  deploy:
+    name: Deploy to Production
     needs: build
     if: success()
-    
-    permissions:
-      issues: write
-
-    steps:
-      - name: Await Manual Approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: lucascancio
-          minimum-approvals: 1
-          issue-title: "Manual Approval Required"
-          issue-body: "Please approve or deny the deployment."
-  deploy:
-    needs: approval
-    if: success()
     runs-on: ubuntu-latest
+    environment:
+       name: Production
 
     steps:
       - name: Download artifact from build job
