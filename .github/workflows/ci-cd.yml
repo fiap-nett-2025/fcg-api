@@ -52,7 +52,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
-          approvers: time
+          approvers: lucascancio
           minimum-approvals: 1
           issue-title: "Manual Approval Required"
           issue-body: "Please approve or deny the deployment."
