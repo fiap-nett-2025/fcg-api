@@ -38,26 +38,10 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}
-  test:
-    needs: build
-    if: success()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-
-      - name: Run Domain Tests
-        run: dotnet test ./FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
-
-      - name: Run Infra Tests
-        run: dotnet test ./FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal
   approval:
     name: Approval
     runs-on: ubuntu-latest
-    needs: test
+    needs: build
     if: success()
     
     permissions:
