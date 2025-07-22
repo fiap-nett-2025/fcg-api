@@ -31,13 +31,13 @@ jobs:
         run: dotnet restore
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release --no-restore -o ${{env.DOTNET_ROOT}}/fcg
+        run: dotnet build --configuration Release --no-restore -o ${{env.DOTNET_ROOT}}
 
       - name: Upload artifact for jobs
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/fcg
+          path: ${{env.DOTNET_ROOT}}
   test:
     needs: build
     if: success()
@@ -78,24 +78,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download source
-        uses: actions/checkout@v4
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Set up dependency caching for faster builds
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+          name: .net-app
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
