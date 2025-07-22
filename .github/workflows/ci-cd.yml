@@ -1,4 +1,4 @@
-name: Deploy to Azure Container Apps
+name: CI/CD
 
 env:
   AZURE_CONTAINER_REGISTRY: "fcgapioficial"
@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   build:
+    name: Application Build
     runs-on: ubuntu-latest
 
     steps:
@@ -38,9 +39,26 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}
+  test:
+    name: Running Tests
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+
+      - name: Run Domain Tests
+        run: dotnet test ${{env.DOTNET_ROOT}}/FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Run Infra Tests
+        run: dotnet test ${{env.DOTNET_ROOT}}/FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal       
   deploy:
     name: Deploy to Production
-    needs: build
+    needs: test
     if: success()
     runs-on: ubuntu-latest
     environment:
