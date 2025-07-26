@@ -63,10 +63,10 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run Domain Tests
-        run: dotnet test ${{env.DOTNET_ROOT}}/FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test ./FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
 
       - name: Run Infra Tests
-        run: dotnet test ${{env.DOTNET_ROOT}}/FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal       
+        run: dotnet test ./FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal       
   deploy:
     name: Deploy to Production
     needs: test
