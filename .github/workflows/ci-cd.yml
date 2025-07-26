@@ -51,6 +51,17 @@ jobs:
         with:
           name: .net-app
 
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Dependency Restore
+        run: dotnet restore
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release --no-restore
+
       - name: Run Domain Tests
         run: dotnet test ${{env.DOTNET_ROOT}}/FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
 
