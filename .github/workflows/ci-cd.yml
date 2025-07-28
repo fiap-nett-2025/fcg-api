@@ -122,4 +122,3 @@ jobs:
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           environmentVariables: |
             ASPNETCORE_ENVIRONMENT=Development
-            ConnectionStrings__DefaultConnection=secretref:sql-conn-string
