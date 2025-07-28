@@ -28,9 +28,9 @@ namespace FCG.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetGame(int id)
         {
-           var game = await _gameService.GetGameByIdAsync(id);
+            var game = await _gameService.GetGameByIdAsync(id);
 
-           return Success(game, "Jogo encontrado.");
+            return Success(game, "Jogo encontrado.");
         }
 
         [HttpPost]
