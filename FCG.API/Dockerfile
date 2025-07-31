@@ -5,6 +5,11 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Ativa New Relic via variáveis de ambiente
+ENV CORECLR_ENABLE_PROFILING=1
+ENV CORECLR_PROFILER="{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
+ENV NEW_RELIC_APP_NAME="fcg-api"
+
 # Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
