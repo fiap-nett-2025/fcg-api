@@ -26,5 +26,11 @@
    <ProjectReference Include="..\FCG.Application\FCG.Application.csproj" />
    <ProjectReference Include="..\FCG.Infra.Data\FCG.Infra.Data.csproj" />
  </ItemGroup>
+	
+<ItemGroup>
+    <Content Include="newrelic\**\*.*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

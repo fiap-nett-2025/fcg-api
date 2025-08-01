@@ -1,11 +1,11 @@
-# Setup
+﻿# Setup
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# Ativa New Relic via vari�veis de ambiente
+# Ativa New Relic via variáveis de ambiente
 ENV CORECLR_ENABLE_PROFILING=1
 ENV CORECLR_PROFILER="{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
 ENV NEW_RELIC_APP_NAME="fcg-api"
@@ -32,4 +32,7 @@ RUN dotnet publish "./FCG.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN echo "📂 Conteúdo da pasta /app/newrelic:" && ls -R /app/newrelic || echo "❌ Pasta /app/newrelic não encontrada"
+
 ENTRYPOINT ["dotnet", "FCG.API.dll"]
