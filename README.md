@@ -22,15 +22,17 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
 - [X] Pipeline CI/CD com deploy automatizado.
 - [X] Monitoramento de logs e desempenho com uma ferramenta de observabilidade (ex: Application Insights, Grafana).
       
-## ⚙️ Tecnologias Utilizadas
+## ⚙️ Tecnologias e Plataformas utilizadas
 
 - [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Visual Studio](https://visualstudio.microsoft.com/pt-br/)
+- [Azure](https://azure.microsoft.com/)
 - [EF Core](https://learn.microsoft.com/pt-br/ef/core/)
 - [ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/)
 - [XUnit](https://xunit.net/)
 - [Swagger](https://swagger.io/)
 - [Docker](https://www.docker.com/)
+- [New Relic](https://newrelic.com/pt/platform)
 
 ## 🛠️ Como Executar
 
