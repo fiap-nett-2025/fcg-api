@@ -5,6 +5,7 @@
 Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvida dentro do ecossistema educacional da FIAP (Faculdade de Informática e Administração Paulista). O projeto tem como objetivo oferecer aos alunos uma experiência prática e integrada no desenvolvimento, deployment e consumo de jogos hospedados em ambientes cloud.
 
 [Documentação](https://www.notion.so/Fiap-Cloud-Games-FCG-1dea50ade75480e78653c05e2cca2193?pvs=4)
+
 [API](https://fcgapi.proudcoast-ea66d6f7.brazilsouth.azurecontainerapps.io/)
 
 ## 🚀 Metas
